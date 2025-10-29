@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Контакты — Weter{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Контакты</h1>
+        <p>Свяжитесь с нами любым удобным способом.</p>
+    </div>
+</section>
+<section class="contacts">
+    <div class="container contact-grid">
+        <div>
+            <h2>Офис</h2>
+            <p><strong>Адрес:</strong> г. Тверь, ул. Центральная 12, офис 305</p>
+            <p><strong>Телефон:</strong> <a href="tel:+78005553535">+7 (800) 555-35-35</a></p>
+            <p><strong>Email:</strong> <a href="mailto:hello@weter.ru">hello@weter.ru</a></p>
+            <p><strong>Часы работы:</strong> Пн-Сб 9:00–21:00</p>
+            <div class="social-links">
+                <a href="https://t.me/weter" target="_blank" rel="noopener">Telegram</a>
+                <a href="https://wa.me/78005553535" target="_blank" rel="noopener">WhatsApp</a>
+                <a href="https://vk.com/weter" target="_blank" rel="noopener">VK</a>
+            </div>
+        </div>
+        <div id="feedback">
+            <h2>Напишите нам</h2>
+            <form method="post" action="{{ url_for('main.contact_submit') }}" class="form">
+                {{ csrf_token() }}
+                <div class="form-group">
+                    <label for="contact-name">Имя*</label>
+                    <input type="text" id="contact-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-contact">Телефон или email*</label>
+                    <input type="text" id="contact-contact" name="contact" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact-message">Сообщение</label>
+                    <textarea id="contact-message" name="message" rows="4"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="map">
+    <div class="container">
+        <h2>Мы на карте</h2>
+        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A3c06a00a8dd8a3b7a5543bd73352bda4d5c1b5d1e1ae1c1f9d1a&source=constructor" width="100%" height="320" frameborder="0"></iframe>
+    </div>
+</section>
+{% endblock %}

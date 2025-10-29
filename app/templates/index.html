@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}Weter — интернет и видеонаблюдение{% endblock %}
+{% block content %}
+<section class="hero" id="hero">
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <h1>{{ hero.title if hero else 'Интернет и безопасность для вашего дома' }}</h1>
+            <p>{{ hero.subtitle if hero else 'Подключаем интернет и устанавливаем видеонаблюдение с гарантией.' }}</p>
+            <div class="hero-actions">
+                {% if hero %}
+                    <a class="btn btn-primary" href="{{ hero.primary_cta_link }}">{{ hero.primary_cta_text }}</a>
+                    {% if hero.secondary_cta_text and hero.secondary_cta_link %}
+                        <a class="btn btn-outline" href="{{ hero.secondary_cta_link }}">{{ hero.secondary_cta_text }}</a>
+                    {% endif %}
+                {% else %}
+                    <a class="btn btn-primary" href="#availability">Проверить доступность</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services" id="services">
+    <div class="container">
+        <h2>Наши сервисы</h2>
+        <div class="cards">
+            {% for service in services %}
+                <article class="card">
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.description }}</p>
+                    <ul>
+                        {% for feature in service.feature_list() %}
+                            <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a class="link" href="{{ url_for('main.internet' if service.category == 'internet' else 'main.surveillance') }}">Подробнее</a>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="availability" id="availability">
+    <div class="container availability-inner">
+        <div>
+            <h2>Проверить возможность подключения</h2>
+            <p>Введите адрес и мы проверим доступность услуг и подберем тариф.</p>
+            <form method="post" action="{{ url_for('main.check_availability') }}" class="form">
+                {{ csrf_token() }}
+                <div class="form-group">
+                    <label for="availability-name">Имя</label>
+                    <input type="text" name="name" id="availability-name" placeholder="Иван Иванов">
+                </div>
+                <div class="form-group">
+                    <label for="availability-phone">Телефон</label>
+                    <input type="tel" name="phone" id="availability-phone" placeholder="+7 (999) 000-00-00">
+                </div>
+                <div class="form-group">
+                    <label for="availability-address">Адрес*</label>
+                    <input type="text" name="address" id="availability-address" required placeholder="г. Тверь, ул. Центральная 12">
+                </div>
+                <button class="btn btn-primary" type="submit">Проверить</button>
+            </form>
+        </div>
+        <div>
+            <ul class="list-highlight">
+                {% for advantage in advantages %}
+                    <li>
+                        <h3>{{ advantage.title }}</h3>
+                        <p>{{ advantage.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="reviews" id="reviews">
+    <div class="container">
+        <h2>Отзывы клиентов</h2>
+        <div class="cards reviews-cards">
+            {% for review in reviews %}
+                <article class="card review-card">
+                    <div class="review-header">
+                        <strong>{{ review.author }}</strong>
+                        {% if review.location %}<span>{{ review.location }}</span>{% endif %}
+                    </div>
+                    <div class="review-rating">
+                        {% for _ in range(review.rating) %}★{% endfor %}
+                    </div>
+                    <p>{{ review.content }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="cta-final">
+    <div class="container">
+        <h2>Готовы подключиться?</h2>
+        <p>Оставьте заявку и мы подготовим индивидуальное предложение.</p>
+        <a class="btn btn-primary" href="#availability">Оставить заявку</a>
+    </div>
+</section>
+{% endblock %}
