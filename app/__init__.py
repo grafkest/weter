@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -11,6 +13,9 @@ csrf = CSRFProtect()
 def create_app(config_class: type[Config] = Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # Ensure the SQLite directory exists before SQLAlchemy tries to connect.
+    os.makedirs(app.instance_path, exist_ok=True)
 
     db.init_app(app)
     migrate.init_app(app, db)

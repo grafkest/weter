@@ -47,12 +47,24 @@
 - Если PowerShell пишет, что файл `Activate` не найден, используйте полный путь `.\.venv\Scripts\Activate.ps1`.
 - При сообщении «pip не является командлетом» запускайте установку зависимостей через `py -m pip ...`. При необходимости восстановите pip: `py -m ensurepip --upgrade` и затем `py -m pip install --upgrade pip`.
 
-### 3. Примените миграции и заполните базу демо-данными
-```bash
-flask --app app:create_app db upgrade
-flask --app app:create_app create-defaults
-```
-> На Windows можно запускать команды через `py -m flask --app app:create_app ...`, если `flask` не найден в PATH.
+### 3. Подготовьте базу данных
+1. Создайте директорию `instance`, чтобы SQLite смог сохранить файл базы данных.
+   - **macOS / Linux**
+     ```bash
+     mkdir -p instance
+     ```
+   - **Windows (PowerShell)**
+     ```powershell
+     mkdir instance
+     ```
+   > Если пропустить этот шаг, при запуске приложения появится ошибка `sqlite3.OperationalError: unable to open database file`.
+
+2. Примените миграции и заполните базу демо-данными:
+   ```bash
+   flask --app app:create_app db upgrade
+   flask --app app:create_app create-defaults
+   ```
+   > На Windows можно запускать команды через `py -m flask --app app:create_app ...`, если `flask` не найден в PATH.
 
 ### 4. Запустите сервер разработки
 - **macOS / Linux**
