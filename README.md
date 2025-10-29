@@ -26,8 +26,10 @@
 - **Windows (PowerShell)**
   ```powershell
   py -3.12 -m venv .venv
-  .\.venv\Scripts\Activate
+  .\.venv\Scripts\Activate.ps1
   ```
+  > Если появляется сообщение об ограничении выполнения скриптов, временно разрешите его командой
+  > `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` и повторите активацию.
 
 ### 2. Установите зависимости
 - **macOS / Linux**
@@ -38,6 +40,12 @@
   ```powershell
   py -m pip install -r requirements.txt
   ```
+
+### 2.1. Частые вопросы в PowerShell
+- Проверьте, что Python установлен и доступен командой `py --version`. Если команда не найдена, переустановите Python и отметьте пункт «Add python.exe to PATH».
+- Убедитесь, что вы находитесь в директории проекта перед выполнением команд (например, `cd C:\Users\Имя\Downloads\weter`).
+- Если PowerShell пишет, что файл `Activate` не найден, используйте полный путь `.\.venv\Scripts\Activate.ps1`.
+- При сообщении «pip не является командлетом» запускайте установку зависимостей через `py -m pip ...`. При необходимости восстановите pip: `py -m ensurepip --upgrade` и затем `py -m pip install --upgrade pip`.
 
 ### 3. Примените миграции и заполните базу демо-данными
 ```bash
