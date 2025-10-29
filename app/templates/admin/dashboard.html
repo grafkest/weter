@@ -1,0 +1,301 @@
+{% extends 'admin/base.html' %}
+{% block content %}
+<section class="admin-section">
+    <h2>Герой-секция</h2>
+    <form method="post" action="{{ url_for('admin.update_hero') }}" class="form form-grid">
+        {{ csrf_token() }}
+        <label>Заголовок
+            <input type="text" name="title" value="{{ hero.title if hero else '' }}" required>
+        </label>
+        <label>Подзаголовок
+            <textarea name="subtitle" rows="3" required>{{ hero.subtitle if hero else '' }}</textarea>
+        </label>
+        <label>Текст кнопки #1
+            <input type="text" name="primary_cta_text" value="{{ hero.primary_cta_text if hero else '' }}" required>
+        </label>
+        <label>Ссылка кнопки #1
+            <input type="text" name="primary_cta_link" value="{{ hero.primary_cta_link if hero else '' }}" required>
+        </label>
+        <label>Текст кнопки #2
+            <input type="text" name="secondary_cta_text" value="{{ hero.secondary_cta_text if hero else '' }}">
+        </label>
+        <label>Ссылка кнопки #2
+            <input type="text" name="secondary_cta_link" value="{{ hero.secondary_cta_link if hero else '' }}">
+        </label>
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+    </form>
+</section>
+
+<section class="admin-section">
+    <h2>Услуги</h2>
+    <div class="admin-list">
+        {% for service in services %}
+            <details open>
+                <summary>{{ service.title }} ({{ 'Интернет' if service.category == 'internet' else 'Видеонаблюдение' }})</summary>
+                <form method="post" action="{{ url_for('admin.save_service') }}" class="form form-grid">
+                    {{ csrf_token() }}
+                    <input type="hidden" name="service_id" value="{{ service.id }}">
+                    <label>Категория
+                        <select name="category">
+                            <option value="internet" {% if service.category == 'internet' %}selected{% endif %}>Интернет</option>
+                            <option value="surveillance" {% if service.category == 'surveillance' %}selected{% endif %}>Видеонаблюдение</option>
+                        </select>
+                    </label>
+                    <label>Название
+                        <input type="text" name="title" value="{{ service.title }}" required>
+                    </label>
+                    <label>Описание
+                        <textarea name="description" rows="3" required>{{ service.description }}</textarea>
+                    </label>
+                    <label>Особенности (по одной в строке)
+                        <textarea name="features" rows="3">{{ service.features }}</textarea>
+                    </label>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                    </div>
+                </form>
+                <form method="post" action="{{ url_for('admin.delete_service', service_id=service.id) }}" class="inline-form" onsubmit="return confirm('Удалить услугу?');">
+                    {{ csrf_token() }}
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+            </details>
+        {% endfor %}
+        <details>
+            <summary>Добавить услугу</summary>
+            <form method="post" action="{{ url_for('admin.save_service') }}" class="form form-grid">
+                {{ csrf_token() }}
+                <label>Категория
+                    <select name="category">
+                        <option value="internet">Интернет</option>
+                        <option value="surveillance">Видеонаблюдение</option>
+                    </select>
+                </label>
+                <label>Название
+                    <input type="text" name="title" required>
+                </label>
+                <label>Описание
+                    <textarea name="description" rows="3" required></textarea>
+                </label>
+                <label>Особенности
+                    <textarea name="features" rows="3"></textarea>
+                </label>
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </form>
+        </details>
+    </div>
+</section>
+
+<section class="admin-section">
+    <h2>Тарифы</h2>
+    <div class="admin-list">
+        {% for tariff in tariffs %}
+            <details>
+                <summary>{{ tariff.name }} — {{ tariff.price_per_month|round(0)|int }} ₽</summary>
+                <form method="post" action="{{ url_for('admin.save_tariff') }}" class="form form-grid">
+                    {{ csrf_token() }}
+                    <input type="hidden" name="tariff_id" value="{{ tariff.id }}">
+                    <label>Название
+                        <input type="text" name="name" value="{{ tariff.name }}" required>
+                    </label>
+                    <label>Скорость (Мбит/с)
+                        <input type="number" name="speed_mbps" value="{{ tariff.speed_mbps }}" min="1" required>
+                    </label>
+                    <label>Цена (₽/мес)
+                        <input type="number" name="price_per_month" value="{{ tariff.price_per_month }}" min="0" step="0.01" required>
+                    </label>
+                    <label>Описание
+                        <textarea name="description" rows="3">{{ tariff.description }}</textarea>
+                    </label>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                    </div>
+                </form>
+                <form method="post" action="{{ url_for('admin.delete_tariff', tariff_id=tariff.id) }}" class="inline-form" onsubmit="return confirm('Удалить тариф?');">
+                    {{ csrf_token() }}
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+            </details>
+        {% endfor %}
+        <details>
+            <summary>Добавить тариф</summary>
+            <form method="post" action="{{ url_for('admin.save_tariff') }}" class="form form-grid">
+                {{ csrf_token() }}
+                <label>Название
+                    <input type="text" name="name" required>
+                </label>
+                <label>Скорость (Мбит/с)
+                    <input type="number" name="speed_mbps" min="1" required>
+                </label>
+                <label>Цена (₽/мес)
+                    <input type="number" name="price_per_month" min="0" step="0.01" required>
+                </label>
+                <label>Описание
+                    <textarea name="description" rows="3"></textarea>
+                </label>
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </form>
+        </details>
+    </div>
+</section>
+
+<section class="admin-section">
+    <h2>Комплекты видеонаблюдения</h2>
+    <div class="admin-list">
+        {% for package in packages %}
+            <details>
+                <summary>{{ package.name }} — {{ package.price|round(0)|int }} ₽</summary>
+                <form method="post" action="{{ url_for('admin.save_package') }}" class="form form-grid">
+                    {{ csrf_token() }}
+                    <input type="hidden" name="package_id" value="{{ package.id }}">
+                    <label>Название
+                        <input type="text" name="name" value="{{ package.name }}" required>
+                    </label>
+                    <label>Описание
+                        <textarea name="description" rows="3" required>{{ package.description }}</textarea>
+                    </label>
+                    <label>Особенности
+                        <textarea name="features" rows="3">{{ package.features }}</textarea>
+                    </label>
+                    <label>Стоимость
+                        <input type="number" name="price" value="{{ package.price }}" min="0" step="0.01" required>
+                    </label>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                    </div>
+                </form>
+                <form method="post" action="{{ url_for('admin.delete_package', package_id=package.id) }}" class="inline-form" onsubmit="return confirm('Удалить комплект?');">
+                    {{ csrf_token() }}
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+            </details>
+        {% endfor %}
+        <details>
+            <summary>Добавить комплект</summary>
+            <form method="post" action="{{ url_for('admin.save_package') }}" class="form form-grid">
+                {{ csrf_token() }}
+                <label>Название
+                    <input type="text" name="name" required>
+                </label>
+                <label>Описание
+                    <textarea name="description" rows="3" required></textarea>
+                </label>
+                <label>Особенности
+                    <textarea name="features" rows="3"></textarea>
+                </label>
+                <label>Стоимость
+                    <input type="number" name="price" min="0" step="0.01" required>
+                </label>
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </form>
+        </details>
+    </div>
+</section>
+
+<section class="admin-section">
+    <h2>Преимущества</h2>
+    <div class="admin-list">
+        {% for advantage in advantages %}
+            <details>
+                <summary>{{ advantage.title }} — {{ advantage.page }}</summary>
+                <form method="post" action="{{ url_for('admin.save_advantage') }}" class="form form-grid">
+                    {{ csrf_token() }}
+                    <input type="hidden" name="advantage_id" value="{{ advantage.id }}">
+                    <label>Страница
+                        <select name="page">
+                            <option value="home" {% if advantage.page == 'home' %}selected{% endif %}>Главная</option>
+                            <option value="internet" {% if advantage.page == 'internet' %}selected{% endif %}>Интернет</option>
+                            <option value="surveillance" {% if advantage.page == 'surveillance' %}selected{% endif %}>Видеонаблюдение</option>
+                        </select>
+                    </label>
+                    <label>Заголовок
+                        <input type="text" name="title" value="{{ advantage.title }}" required>
+                    </label>
+                    <label>Описание
+                        <textarea name="description" rows="3" required>{{ advantage.description }}</textarea>
+                    </label>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                    </div>
+                </form>
+                <form method="post" action="{{ url_for('admin.delete_advantage', advantage_id=advantage.id) }}" class="inline-form" onsubmit="return confirm('Удалить преимущество?');">
+                    {{ csrf_token() }}
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+            </details>
+        {% endfor %}
+        <details>
+            <summary>Добавить преимущество</summary>
+            <form method="post" action="{{ url_for('admin.save_advantage') }}" class="form form-grid">
+                {{ csrf_token() }}
+                <label>Страница
+                    <select name="page">
+                        <option value="home">Главная</option>
+                        <option value="internet">Интернет</option>
+                        <option value="surveillance">Видеонаблюдение</option>
+                    </select>
+                </label>
+                <label>Заголовок
+                    <input type="text" name="title" required>
+                </label>
+                <label>Описание
+                    <textarea name="description" rows="3" required></textarea>
+                </label>
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </form>
+        </details>
+    </div>
+</section>
+
+<section class="admin-section">
+    <h2>Отзывы</h2>
+    <div class="admin-list">
+        {% for review in reviews %}
+            <details>
+                <summary>{{ review.author }} — {{ review.rating }}★</summary>
+                <form method="post" action="{{ url_for('admin.save_review') }}" class="form form-grid">
+                    {{ csrf_token() }}
+                    <input type="hidden" name="review_id" value="{{ review.id }}">
+                    <label>Автор
+                        <input type="text" name="author" value="{{ review.author }}" required>
+                    </label>
+                    <label>Локация
+                        <input type="text" name="location" value="{{ review.location }}">
+                    </label>
+                    <label>Оценка
+                        <input type="number" name="rating" value="{{ review.rating }}" min="1" max="5" required>
+                    </label>
+                    <label>Отзыв
+                        <textarea name="content" rows="3" required>{{ review.content }}</textarea>
+                    </label>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                    </div>
+                </form>
+                <form method="post" action="{{ url_for('admin.delete_review', review_id=review.id) }}" class="inline-form" onsubmit="return confirm('Удалить отзыв?');">
+                    {{ csrf_token() }}
+                    <button class="btn btn-danger" type="submit">Удалить</button>
+                </form>
+            </details>
+        {% endfor %}
+        <details>
+            <summary>Добавить отзыв</summary>
+            <form method="post" action="{{ url_for('admin.save_review') }}" class="form form-grid">
+                {{ csrf_token() }}
+                <label>Автор
+                    <input type="text" name="author" required>
+                </label>
+                <label>Локация
+                    <input type="text" name="location">
+                </label>
+                <label>Оценка
+                    <input type="number" name="rating" min="1" max="5" value="5" required>
+                </label>
+                <label>Отзыв
+                    <textarea name="content" rows="3" required></textarea>
+                </label>
+                <button class="btn btn-primary" type="submit">Добавить</button>
+            </form>
+        </details>
+    </div>
+</section>
+{% endblock %}

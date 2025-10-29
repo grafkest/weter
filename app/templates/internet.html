@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Тарифы на интернет — Weter{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Интернет для квартир и домов</h1>
+        <p>Подключаем оптоволоконный интернет с высокой скоростью и надежностью.</p>
+    </div>
+</section>
+<section class="tariffs">
+    <div class="container">
+        <h2>Тарифные планы</h2>
+        <div class="cards">
+            {% for tariff in tariffs %}
+                <article class="card">
+                    <h3>{{ tariff.name }}</h3>
+                    <p class="tariff-price">{{ tariff.price_per_month|round(0)|int }} ₽/мес</p>
+                    <p class="tariff-speed">Скорость до {{ tariff.speed_mbps }} Мбит/с</p>
+                    {% if tariff.description %}<p>{{ tariff.description }}</p>{% endif %}
+                    <a class="btn btn-outline" href="#availability">Оформить заявку</a>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="advantages">
+    <div class="container">
+        <h2>Почему выбирают Weter</h2>
+        <div class="cards small">
+            {% for advantage in advantages %}
+                <article class="card">
+                    <h3>{{ advantage.title }}</h3>
+                    <p>{{ advantage.description }}</p>
+                </article>
+            {% else %}
+                <article class="card">
+                    <h3>Гарантия стабильности</h3>
+                    <p>Непрерывный мониторинг сети и резервные каналы связи.</p>
+                </article>
+                <article class="card">
+                    <h3>Умный дом</h3>
+                    <p>Скорость достаточно высока для камер, датчиков и систем автоматизации.</p>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="cta-final">
+    <div class="container">
+        <h2>Проверьте доступность по адресу</h2>
+        <a class="btn btn-primary" href="{{ url_for('main.index') }}#availability">Проверить</a>
+    </div>
+</section>
+{% endblock %}

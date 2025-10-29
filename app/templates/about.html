@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}О компании — Weter{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>О компании</h1>
+        <p>Weter — оператор связи и интегратор систем безопасности.</p>
+    </div>
+</section>
+<section class="about">
+    <div class="container about-grid">
+        <div>
+            <h2>Миссия</h2>
+            <p>Мы подключаем дома и бизнес к скоростному интернету и защищаем их с помощью современных систем видеонаблюдения.</p>
+            <p>Работаем с 2012 года, имеем лицензии на деятельность в сфере связи и монтаж охранных систем.</p>
+        </div>
+        <div>
+            <h2>Почему мы</h2>
+            <ul class="list-highlight">
+                <li>Собственная оптоволоконная сеть и инженерная служба.</li>
+                <li>Профессиональные монтажники с опытом более 7 лет.</li>
+                <li>Гарантия на оборудование и обслуживание 36 месяцев.</li>
+                <li>Интеграция с системами умного дома и CRM.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="team">
+    <div class="container">
+        <h2>Команда</h2>
+        <div class="cards">
+            {% for member in team %}
+                <article class="card">
+                    <h3>{{ member.name }}</h3>
+                    <p class="muted">{{ member.role }}</p>
+                    <p>{{ member.bio }}</p>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
