@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Системы видеонаблюдения — Weter{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <h1>Видеонаблюдение под ключ</h1>
+        <p>Проектируем и устанавливаем системы безопасности с удаленным доступом.</p>
+    </div>
+</section>
+<section class="packages">
+    <div class="container">
+        <h2>Готовые комплекты</h2>
+        <div class="cards">
+            {% for package in packages %}
+                <article class="card">
+                    <h3>{{ package.name }}</h3>
+                    <p class="package-price">{{ package.price|round(0)|int }} ₽</p>
+                    <p>{{ package.description }}</p>
+                    <ul>
+                        {% for feature in package.feature_list() %}
+                            <li>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a class="btn btn-outline" href="#consultation">Получить консультацию</a>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="advantages">
+    <div class="container">
+        <h2>Преимущества</h2>
+        <div class="cards small">
+            {% for advantage in advantages %}
+                <article class="card">
+                    <h3>{{ advantage.title }}</h3>
+                    <p>{{ advantage.description }}</p>
+                </article>
+            {% else %}
+                <article class="card">
+                    <h3>Мобильный доступ</h3>
+                    <p>Смотрите камеры с телефона или планшета в реальном времени.</p>
+                </article>
+                <article class="card">
+                    <h3>Облачная запись</h3>
+                    <p>Видео хранится в защищенном облаке с шифрованием.</p>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="consultation" id="consultation">
+    <div class="container consultation-inner">
+        <div>
+            <h2>Получить бесплатную консультацию</h2>
+            <p>Оставьте контакты — инженер спроектирует систему под ваш объект.</p>
+        </div>
+        <form method="post" action="{{ url_for('main.consultation_request') }}" class="form">
+            {{ csrf_token() }}
+            <div class="form-group">
+                <label for="consultation-name">Имя*</label>
+                <input type="text" id="consultation-name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="consultation-phone">Телефон*</label>
+                <input type="tel" id="consultation-phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="consultation-address">Адрес установки*</label>
+                <input type="text" id="consultation-address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="consultation-comment">Комментарий</label>
+                <textarea id="consultation-comment" name="comment" rows="3"></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Отправить</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
