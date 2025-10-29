@@ -56,7 +56,7 @@
             <p>Оставьте контакты — инженер спроектирует систему под ваш объект.</p>
         </div>
         <form method="post" action="{{ url_for('main.consultation_request') }}" class="form">
-            {{ csrf_token() }}
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <label for="consultation-name">Имя*</label>
                 <input type="text" id="consultation-name" name="name" required>

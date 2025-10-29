@@ -24,7 +24,7 @@
         <div id="feedback">
             <h2>Напишите нам</h2>
             <form method="post" action="{{ url_for('main.contact_submit') }}" class="form">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <label for="contact-name">Имя*</label>
                     <input type="text" id="contact-name" name="name" required>

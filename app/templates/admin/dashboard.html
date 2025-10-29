@@ -3,7 +3,7 @@
 <section class="admin-section">
     <h2>Герой-секция</h2>
     <form method="post" action="{{ url_for('admin.update_hero') }}" class="form form-grid">
-        {{ csrf_token() }}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <label>Заголовок
             <input type="text" name="title" value="{{ hero.title if hero else '' }}" required>
         </label>
@@ -33,7 +33,7 @@
             <details open>
                 <summary>{{ service.title }} ({{ 'Интернет' if service.category == 'internet' else 'Видеонаблюдение' }})</summary>
                 <form method="post" action="{{ url_for('admin.save_service') }}" class="form form-grid">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="service_id" value="{{ service.id }}">
                     <label>Категория
                         <select name="category">
@@ -55,7 +55,7 @@
                     </div>
                 </form>
                 <form method="post" action="{{ url_for('admin.delete_service', service_id=service.id) }}" class="inline-form" onsubmit="return confirm('Удалить услугу?');">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="btn btn-danger" type="submit">Удалить</button>
                 </form>
             </details>
@@ -63,7 +63,7 @@
         <details>
             <summary>Добавить услугу</summary>
             <form method="post" action="{{ url_for('admin.save_service') }}" class="form form-grid">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <label>Категория
                     <select name="category">
                         <option value="internet">Интернет</option>
@@ -92,7 +92,7 @@
             <details>
                 <summary>{{ tariff.name }} — {{ tariff.price_per_month|round(0)|int }} ₽</summary>
                 <form method="post" action="{{ url_for('admin.save_tariff') }}" class="form form-grid">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="tariff_id" value="{{ tariff.id }}">
                     <label>Название
                         <input type="text" name="name" value="{{ tariff.name }}" required>
@@ -111,7 +111,7 @@
                     </div>
                 </form>
                 <form method="post" action="{{ url_for('admin.delete_tariff', tariff_id=tariff.id) }}" class="inline-form" onsubmit="return confirm('Удалить тариф?');">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="btn btn-danger" type="submit">Удалить</button>
                 </form>
             </details>
@@ -119,7 +119,7 @@
         <details>
             <summary>Добавить тариф</summary>
             <form method="post" action="{{ url_for('admin.save_tariff') }}" class="form form-grid">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <label>Название
                     <input type="text" name="name" required>
                 </label>
@@ -145,7 +145,7 @@
             <details>
                 <summary>{{ package.name }} — {{ package.price|round(0)|int }} ₽</summary>
                 <form method="post" action="{{ url_for('admin.save_package') }}" class="form form-grid">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="package_id" value="{{ package.id }}">
                     <label>Название
                         <input type="text" name="name" value="{{ package.name }}" required>
@@ -164,7 +164,7 @@
                     </div>
                 </form>
                 <form method="post" action="{{ url_for('admin.delete_package', package_id=package.id) }}" class="inline-form" onsubmit="return confirm('Удалить комплект?');">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="btn btn-danger" type="submit">Удалить</button>
                 </form>
             </details>
@@ -172,7 +172,7 @@
         <details>
             <summary>Добавить комплект</summary>
             <form method="post" action="{{ url_for('admin.save_package') }}" class="form form-grid">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <label>Название
                     <input type="text" name="name" required>
                 </label>
@@ -198,7 +198,7 @@
             <details>
                 <summary>{{ advantage.title }} — {{ advantage.page }}</summary>
                 <form method="post" action="{{ url_for('admin.save_advantage') }}" class="form form-grid">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="advantage_id" value="{{ advantage.id }}">
                     <label>Страница
                         <select name="page">
@@ -218,7 +218,7 @@
                     </div>
                 </form>
                 <form method="post" action="{{ url_for('admin.delete_advantage', advantage_id=advantage.id) }}" class="inline-form" onsubmit="return confirm('Удалить преимущество?');">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="btn btn-danger" type="submit">Удалить</button>
                 </form>
             </details>
@@ -226,7 +226,7 @@
         <details>
             <summary>Добавить преимущество</summary>
             <form method="post" action="{{ url_for('admin.save_advantage') }}" class="form form-grid">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <label>Страница
                     <select name="page">
                         <option value="home">Главная</option>
@@ -253,7 +253,7 @@
             <details>
                 <summary>{{ review.author }} — {{ review.rating }}★</summary>
                 <form method="post" action="{{ url_for('admin.save_review') }}" class="form form-grid">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="review_id" value="{{ review.id }}">
                     <label>Автор
                         <input type="text" name="author" value="{{ review.author }}" required>
@@ -272,7 +272,7 @@
                     </div>
                 </form>
                 <form method="post" action="{{ url_for('admin.delete_review', review_id=review.id) }}" class="inline-form" onsubmit="return confirm('Удалить отзыв?');">
-                    {{ csrf_token() }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <button class="btn btn-danger" type="submit">Удалить</button>
                 </form>
             </details>
@@ -280,7 +280,7 @@
         <details>
             <summary>Добавить отзыв</summary>
             <form method="post" action="{{ url_for('admin.save_review') }}" class="form form-grid">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <label>Автор
                     <input type="text" name="author" required>
                 </label>

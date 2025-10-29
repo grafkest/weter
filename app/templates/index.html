@@ -46,7 +46,7 @@
             <h2>Проверить возможность подключения</h2>
             <p>Введите адрес и мы проверим доступность услуг и подберем тариф.</p>
             <form method="post" action="{{ url_for('main.check_availability') }}" class="form">
-                {{ csrf_token() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <label for="availability-name">Имя</label>
                     <input type="text" name="name" id="availability-name" placeholder="Иван Иванов">
